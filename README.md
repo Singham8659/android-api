@@ -28,7 +28,7 @@ L'activation du virtualenv est absolument nécessaire pour la suite des opérati
 
 <h2>Étape 5: démarrez l'application</h2>
 - exécutez la commande <strong>python -m flask run</strong>
--L'application est maintenant démarrée
+- L'application est maintenant démarrée
 -Ctrl C pour arrêter l'application, et <strong>./Scripts/deactivate</strong> pour désactiver le virtualenv
 
 <h2>Étape 6: priez</h2>
