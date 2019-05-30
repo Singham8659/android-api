@@ -100,6 +100,7 @@ def get_all_conversations():
     return conversation_schema.dumps(Conversation.query.all(), many=True).data
 
 
+
 ####################
 #Table Message
 ####################
@@ -125,6 +126,12 @@ message_schema = MessageSchema()
 
 def get_messages_by_conv(idConversation):
     return message_schema.dumps(Message.query.filter_by(idConversation=idConversation).all(), many=True).data
+
+def get_last_messages_by_conv(idConversation, lastMessageId):
+    messages_list = Message.query.filter((Message.id > lastMessageId) & (Message.idConversation == idConversation)).all()
+    new_last_message_id = messages_list[-1].id
+    messages = message_schema.dump(messages_list, many=True).data
+    return jsonify({'lastMessageId' : new_last_message_id, 'messages': messages})
 
 def insert_message(idAuteur, idConversation, content):
     new_message = Message(idConversation, idAuteur, contenu)
