@@ -99,6 +99,7 @@ def create_conversation():
 def get_messages_by_conversation(conversation_id):
     return get_messages_by_conv(conversation_id)
 
+#cette route renvoie tous les messages de la conversation d'id conversation_id, ayant un id supérieur à message_id
 @app.route('/refresh/<conversation_id>/<last_message_id>', methods=['GET'])
 @jwt_required
 def get_last_messages_by_conversation(conversation_id, last_message_id):
