@@ -35,7 +35,7 @@ L'activation du virtualenv est absolument nécessaire pour la suite des opérati
 priez pour que ça marche
 
 Sans quoi:
-<img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Idol_Moloch.jpg"/>
+<img style="max-height:300px;" src="https://upload.wikimedia.org/wikipedia/commons/1/15/Idol_Moloch.jpg"/>
 
 
 
