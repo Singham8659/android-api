@@ -30,12 +30,12 @@ L'activation du virtualenv est absolument nécessaire pour la suite des opérati
 - exécutez la commande <strong>python -m flask run</strong>
 - L'application est maintenant démarrée
 -Ctrl C pour arrêter l'application, et <strong>./Scripts/deactivate</strong> pour désactiver le virtualenv
+-L'application va être accessible depuis l'adresse localhost:5000 par défaut
 
 <h2>Étape 6: priez</h2>
 priez pour que ça marche
 
-Sans quoi:
-<img style="max-height:300px;" src="https://upload.wikimedia.org/wikipedia/commons/1/15/Idol_Moloch.jpg"/>
+
 
 
 
