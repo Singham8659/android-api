@@ -34,4 +34,8 @@ L'activation du virtualenv est absolument nécessaire pour la suite des opérati
 <h2>Étape 6: priez</h2>
 priez pour que ça marche
 
+Sans quoi:
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Idol_Moloch.jpg"/>
+
+
 
