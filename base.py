@@ -164,10 +164,12 @@ def get_last_messages_by_conv(idConversation, lastMessageId):
     messages = message_schema.dump(messages_list, many=True).data
     return jsonify({'lastMessageId' : new_last_message_id, 'messages': messages})
 
-def insert_message(idAuteur, idConversation, content):
-    new_message = Message(idConversation, idAuteur, content)
+def insert_message(pseudo, idConversation, content):
+    user = User.query.filter_by(pseudo=pseudo).first()
+    new_message = Message(idConversation, user.id, content)
     db.session.add(new_message)
     db.session.commit()
+    return message_schema.dump(new_message).data
 
 def delete_message_by_id(idMessage):
     message = Message.query.filter_by(id=idMessage).first()

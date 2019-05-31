@@ -148,17 +148,14 @@ def get_conversations():
     return get_all_conversations()
 
 #envoi d'un message à la conversation idConversation (donnée dans chemin)
-#envoyer objet json de type {"idAuteur": id, "content": content}
+#envoyer objet json de type {"content": content}
 @app.route('/conversation/<idConversation>/message', methods=['POST'])
 @jwt_required
 def send_message(idConversation): 
     post_data = request.get_json()
     content = post_data["content"]
-    idAuteur = post_data["idAuteur"]
-    if not check_identity(get_jwt_identity(), idAuteur):
-        return jsonify({'message':'message non envoyé'}), 400
-    insert_message(idAuteur, idConversation, content)
-    return jsonify({'message':'message envoyé'}), 200
+    message = insert_message(get_jwt_identity(), idConversation, content)
+    return jsonify({'message':'message envoyé', 'insertedMessage': message}), 200
 
 #suppression d'un message (DELETE)
 #envoyer objet json {"idMessage": idMessage}
@@ -182,8 +179,10 @@ def delete_message():
 @app.route('/blacklist/<id>/<blacklist>', methods=['GET'])
 @admin_required
 def blacklist_user_by_id(id, blacklist):
+    if blacklist != 0 and blacklist !=1:
+        return jsonify({'message':'mauvaises valeurs', 'status':'failure'}), 400
     blacklist_user(id, blacklist)
-    return jsonify({'message':'utilisateur blacklisté'}), 200
+    return jsonify({'message':'utilisateur blacklisté', 'status':'success'}), 200
 
 @app.route('/test', methods=['GET'])
 @jwt_required
