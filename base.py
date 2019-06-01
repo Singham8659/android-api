@@ -64,6 +64,8 @@ def is_admin(pseudo):
 
 def is_blacklisted(pseudo):
     user = User.query.filter_by(pseudo=pseudo).first()
+    if user is None:
+        return False
     return (user.blacklist == 1)
 
 def get_all_users():
@@ -85,6 +87,8 @@ def get_user_info(pseudo):
 
 def check_identity(pseudo, id):
     user = User.query.filter_by(pseudo=pseudo).options(load_only('id', 'admin')).first()
+    if user is None:
+        return False
     return (user.id == id or user.admin == 1)
 
 def delete_user_by_id(id):

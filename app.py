@@ -190,3 +190,5 @@ def token_test():
     claims = get_jwt_claims()
     return jsonify(claims)
 
+if __name__ == '__main__':
+   app.run(host='0.0.0.0', port=5000)
