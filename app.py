@@ -5,7 +5,8 @@ from base import (get_all_users, check_login, is_admin, get_all_conversations,
                 get_messages_by_conv, create_new_conversation, get_last_messages_by_conv, 
                 set_user_connected, is_blacklisted, blacklist_user, insert_message,
                 get_user_info, check_identity, delete_message_by_id,
-                insert_user, delete_user_by_id, login_dispo, check_author_identity)
+                insert_user, delete_user_by_id, login_dispo, check_author_identity,
+                delete_conversation_by_id)
 from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity, verify_jwt_in_request, get_jwt_claims, get_raw_jwt)
 import sys
 import pymysql
@@ -110,14 +111,12 @@ def logout():
 
 #suppression d'utilisateur
 #objet json {"userId": userId}
-@app.route('/user/delete', methods=['DELETE'])
+@app.route('/user/<id>', methods=['DELETE'])
 @jwt_required
-def delete_user():
-    post_data = request.get_json()
-    userId = post_data["userId"]
-    if not check_identity(get_jwt_identity(), userId):
+def delete_user(id):
+    if not check_identity(get_jwt_identity(), id):
         return jsonify({'message': 'utilisateur non supprimé'}), 400
-    delete_user_by_id(userId)
+    delete_user_by_id(id)
     return jsonify({'message': 'utilisateur supprimé avec succès'}), 200
 
 #on ajoute une conversation (envoyer objet json avec variable theme)
@@ -157,21 +156,23 @@ def send_message(idConversation):
     message = insert_message(get_jwt_identity(), idConversation, content)
     return jsonify({'message':'message envoyé', 'insertedMessage': message}), 200
 
-#suppression d'un message (DELETE)
-#envoyer objet json {"idMessage": idMessage}
-@app.route('/message/delete', methods=['DELETE'])
+@app.route('/conversation/<id>', methods=['DELETE'])
 @jwt_required
-def delete_message():
-    post_data = request.get_json()
-    idMessage = post_data["idMessage"]
-    claims = get_jwt_claims()
-    if not check_author_identity(get_jwt_identity(), idMessage, claims["admin"]):
-        return jsonify ({'message': 'message non supprimé'}), 400
-    delete_message_by_id(idMessage)
-    return jsonify({'message': 'message supprimé avec succès'}), 200
-    
-   
+def delete_conversation(id):
+    if not get_jwt_claims()['admin']:
+        return jsonify({'message': 'conversation non supprimée'})
+    delete_conversation_by_id(id)
+    return jsonify({'message': 'conversation supprimée avec succès'})
 
+#suppression d'un message (DELETE)
+@app.route('/message/<id>', methods=['DELETE'])
+@jwt_required
+def delete_message(id):
+    claims = get_jwt_claims()
+    if not check_author_identity(get_jwt_identity(), id, claims["admin"]):
+        return jsonify ({'message': 'message non supprimé'}), 400
+    delete_message_by_id(id)
+    return jsonify({'message': 'message supprimé avec succès'}), 200
 
 #route qui blackliste les utilisateurs.
 #envoyer requete get à la route "/blacklist/idUtilisateur/blacklisté" blacklisté étant 0 ou 1
