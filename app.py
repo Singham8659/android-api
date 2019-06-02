@@ -169,8 +169,6 @@ def delete_message():
         return jsonify ({'message': 'message non supprimé'}), 400
     delete_message_by_id(idMessage)
     return jsonify({'message': 'message supprimé avec succès'}), 200
-    
-   
 
 
 #route qui blackliste les utilisateurs.
@@ -183,12 +181,6 @@ def blacklist_user_by_id(id, blacklist):
         return jsonify({'message':'mauvaises valeurs', 'status':'failure'}), 400
     blacklist_user(id, blacklist)
     return jsonify({'message':'utilisateur blacklisté', 'status':'success'}), 200
-
-@app.route('/test', methods=['GET'])
-@jwt_required
-def token_test():
-    claims = get_jwt_claims()
-    return jsonify(claims)
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5000)
