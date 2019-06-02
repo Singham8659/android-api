@@ -40,7 +40,7 @@ class UserSchema(ModelSchema):
 user_schema = UserSchema()
 
 def insert_user(pseudo, passe):
-    new_user = User(pseudo, encrypt_string(passe), 0, 'black')
+    new_user = User(pseudo, encrypt_string(passe), 0, '#000000')
     db.session.add(new_user)
     db.session.commit()
 
@@ -89,7 +89,7 @@ def check_identity(pseudo, id):
     user = User.query.filter_by(pseudo=pseudo).options(load_only('id', 'admin')).first()
     if user is None:
         return False
-    return (user.id == id or user.admin == 1)
+    return (int(user.id) == int(id) or user.admin == 1)
 
 def delete_user_by_id(id):
     user = User.query.filter_by(id=id).first()
@@ -130,7 +130,10 @@ def create_new_conversation(theme):
 def get_all_conversations():
     return conversation_schema.dumps(Conversation.query.all(), many=True).data
 
-
+def delete_conversation_by_id(id):
+    conversation = Conversation.query.filter_by(id=id).first()
+    db.session.delete(conversation)
+    db.session.commit()
 
 ####################
 #Table Message
@@ -185,3 +188,10 @@ def check_author_identity(pseudo, idMessage, admin):
     print(message.auteur.pseudo, file=sys.stderr)
     print(pseudo, file=sys.stderr)
     return (pseudo == message.auteur.pseudo or admin == 1)
+
+def patch_used_by_id(id, pseudo, color):
+    user = User.query.filter_by(id=id).first()
+    user.pseudo = pseudo
+    user.couleur = color
+    db.session.add(user)
+    db.session.commit()
