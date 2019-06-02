@@ -89,7 +89,7 @@ def check_identity(pseudo, id):
     user = User.query.filter_by(pseudo=pseudo).options(load_only('id', 'admin')).first()
     if user is None:
         return False
-    return (user.id == id or user.admin == 1)
+    return (int(user.id) == int(id) or user.admin == 1)
 
 def delete_user_by_id(id):
     user = User.query.filter_by(id=id).first()
