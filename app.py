@@ -6,11 +6,12 @@ from base import (get_all_users, check_login, is_admin, get_all_conversations,
                 set_user_connected, is_blacklisted, blacklist_user, insert_message,
                 get_user_info, check_identity, delete_message_by_id,
                 insert_user, delete_user_by_id, login_dispo, check_author_identity,
-                delete_conversation_by_id)
+                delete_conversation_by_id, patch_used_by_id)
 from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity, verify_jwt_in_request, get_jwt_claims, get_raw_jwt)
 import sys
 import pymysql
 from functools import wraps
+import re
 
 app = Flask(__name__)
 app.secret_key = "secret-key"
@@ -118,6 +119,20 @@ def delete_user(id):
         return jsonify({'message': 'utilisateur non supprimé'}), 400
     delete_user_by_id(id)
     return jsonify({'message': 'utilisateur supprimé avec succès'}), 200
+
+@app.route('/user/<id>', methods=['PATCH'])
+@jwt_required
+def patch_user(id):
+    if not check_identity(get_jwt_identity(), id):
+        return jsonify({'message': 'utilisateur non modifié'}, 400)
+    post_data = request.get_json()
+    pseudo = post_data['pseudo']
+    color = post_data['couleur']
+    if (not pseudo) or (not color) or (not re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color)):
+        return jsonify({'message': 'utilisateur non modifié'}), 400
+    patch_used_by_id(id, pseudo, color)
+    return jsonify({'message': 'utiliateur modifié avec succcès'}), 200
+    
 
 #on ajoute une conversation (envoyer objet json avec variable theme)
 @app.route('/conversation/new', methods=['POST'])
