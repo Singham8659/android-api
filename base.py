@@ -40,7 +40,7 @@ class UserSchema(ModelSchema):
 user_schema = UserSchema()
 
 def insert_user(pseudo, passe):
-    new_user = User(pseudo, encrypt_string(passe), 0, 'black')
+    new_user = User(pseudo, encrypt_string(passe), 0, '#000000')
     db.session.add(new_user)
     db.session.commit()
 
