@@ -130,7 +130,10 @@ def create_new_conversation(theme):
 def get_all_conversations():
     return conversation_schema.dumps(Conversation.query.all(), many=True).data
 
-
+def delete_conversation_by_id(id):
+    conversation = Conversation.query.filter_by(id=id).first()
+    db.session.delete(conversation)
+    db.session.commit()
 
 ####################
 #Table Message
