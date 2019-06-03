@@ -189,9 +189,8 @@ def check_author_identity(pseudo, idMessage, admin):
     print(pseudo, file=sys.stderr)
     return (pseudo == message.auteur.pseudo or admin == 1)
 
-def patch_used_by_id(id, pseudo, color):
+def patch_user_by_id(id, pseudo, color):
     user = User.query.filter_by(id=id).first()
     user.pseudo = pseudo
     user.couleur = color
-    db.session.add(user)
     db.session.commit()

@@ -6,7 +6,7 @@ from base import (get_all_users, check_login, is_admin, get_all_conversations,
                 set_user_connected, is_blacklisted, blacklist_user, insert_message,
                 get_user_info, check_identity, delete_message_by_id,
                 insert_user, delete_user_by_id, login_dispo, check_author_identity,
-                delete_conversation_by_id, patch_used_by_id)
+                delete_conversation_by_id, patch_user_by_id)
 from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity, verify_jwt_in_request, get_jwt_claims, get_raw_jwt)
 import sys
 import pymysql
@@ -130,7 +130,7 @@ def patch_user(id):
     color = post_data['couleur']
     if (not pseudo) or (not color) or (not re.search(r'^#(?:[0-9a-fA-F]{3}){1,2}$', color)):
         return jsonify({'message': 'utilisateur non modifié'}), 400
-    patch_used_by_id(id, pseudo, color)
+    patch_user_by_id(id, pseudo, color)
     return jsonify({'message': 'utiliateur modifié avec succcès'}), 200
     
 
