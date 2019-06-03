@@ -194,3 +194,13 @@ def patch_user_by_id(id, pseudo, color):
     user.pseudo = pseudo
     user.couleur = color
     db.session.commit()
+
+def get_user_profile(id):
+    user_info = User.query.filter_by(id=id).first()
+    conversations = db.session.query(Conversation.id, Conversation.theme, Conversation.active).join(Message, Message.idConversation == Conversation.id).filter(Message.idAuteur == id)
+    return {
+        'id' : user_info.id,
+        'pseudo' : user_info.pseudo,
+        'couleur' : user_info.couleur,
+        'conversations' : list(map(lambda conv : {'id' : conv.id, 'theme' : conv.theme, 'active' : conv.active}, conversations)),
+    }
