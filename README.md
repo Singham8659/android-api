@@ -26,14 +26,23 @@ L'activation du virtualenv est absolument nécessaire pour la suite des opérati
 <h2>Étape 4: initialisez une variable d'environnement</h2>
 - exécutez la commande <strong>export FLASK_APP=app.py</strong>
 
-<h2>Étape 5: démarrez l'application</h2>
+<h2>Étape 5: Importer la base de données modifiée</h2>
+<ul>
+  <li>- télécharger le ficher base.sql fourni sur ce dépot git</li>
+  <li>- le champ mot de passe a été modifié pour accueillir un mot de passe crypté</li>
+  <li>- importer ce fichier dans une base SQL locale (MySQL)</li>
+  <li>- il est nécessaire que la base s'appelle "android_chat"</li>
+  <li>- On peut modifier la configuration de l'accès à la base dans le fichier app.py (variable db_conn)</li>
+  <li>- modèle à suivre: <strong>mysql+pymysql://login:mdp@localhost/nom_bdd</strong></li>
+  <li>- les mots de passes de Tom et Jean-Pierre sont cryptés, il correspondent aux anciens mots de passe (tomtom et tintin)</li>
+</ul>
+
+<h2>Étape 6: démarrez l'application</h2>
 - exécutez la commande <strong>python -m flask run</strong>
 - L'application est maintenant démarrée
 -Ctrl C pour arrêter l'application, et <strong>./Scripts/deactivate</strong> pour désactiver le virtualenv
 -L'application va être accessible depuis l'adresse localhost:5000 par défaut
 
-<h2>Étape 6: priez</h2>
-priez pour que ça marche
 
 
 
