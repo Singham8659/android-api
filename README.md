@@ -17,7 +17,7 @@ Clonez ce repository localement
 Rendez vous à la racine de votre répertoire fraîchement créé.
   <li>exécutez la commande <strong>"virtualenv ."</strong> Cela fera de votre répertoire un virtualenv vous permettant d'installer des modules python</li>
   <li>Activez le virtualenv: Vous constaterez la présence d'un répertoire "Scripts" dans votre virtualenv. 
-  exécutez donc la commande <strong>./Scripts/activate</strong><li>
+  exécutez donc la commande <strong>./Scripts/activate</strong></li>
   <li>L'activation du virtualenv est absolument nécessaire pour la suite des opérations.</li>
 </ul>
 
